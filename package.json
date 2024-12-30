@@ -1,0 +1,21 @@
+{
+	"name": "question-picker-webapp",
+	"version": "1.0.0",
+	"description": "webapp version for the question picker",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon backend/app"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.4.7",
+		"express": "^4.21.2",
+		"mongodb": "^6.12.0",
+		"mongoose": "^8.9.2",
+		"nodemon": "^3.1.9"
+	},
+	"type": "module"
+}
