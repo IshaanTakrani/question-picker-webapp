@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+	const [quote, setQuote] = useState('Loading...');
+	const [count, setCount] = useState(0);
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+	useEffect(() => {
+		// Fetch the quote when the component loads
+		fetch('http://localhost:5000/get-quote')
+			.then((response) => response.json()) // Convert response to JSON
+			.then((data) => setQuote(data.message)) // Update state with the quote
+			.catch((error) => setQuote('Error fetching quote')); // Handle errors
+	}, []); // Empty array means this runs only once
 
-export default App
+	// useEffect(() => {
+	// 	fetch('http//localhost:5000/get-questions');
+	// });
+
+	return (
+		<>
+			<p>Questions:</p>
+			<div className="table-component">
+				<table>
+					<thead>
+						<tr>
+							<th>Question</th>
+							<th>Description</th>
+							<th>Mark complete</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td>1.3.4</td>
+							<td>What is 2+2?</td>
+							<td>✅</td>
+							<td>❌</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>{quote}</p>
+			</div>
+		</>
+	);
+};
+
+export default App;
+
+// import React, { useState, useEffect } from 'react';
+
+// const App = () => {
+// 	const [quote, setQuote] = useState('Loading...'); // State for the quote
+
+// 	useEffect(() => {
+// 		fetch('http://localhost:5000/getQuote')
+// 			.then((response) => response.json())
+// 			.then((data) => setQuote(data.message))
+// 			.catch((error) => setQuote('Error fetching quote'));
+// 	}, []); // Empty array means this runs only once
+
+// 	return (
+// 		<div>
+// 			<h1>Quote:</h1>
+// 			<p>{quote}</p>
+// 		</div>
+// 	);
+// };
+
+// export default App;
