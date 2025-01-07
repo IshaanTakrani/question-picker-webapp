@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import User from '../models/User.js';
 // import Question from './models/Question.js';
 
@@ -7,19 +7,16 @@ dotenv.config();
 // console.log(`MONGO_URI: ${process.env.MONGO_URI}`);
 
 const connectDB = async () => {
-	console.log(`MONGO_URI: ${process.env.MONGO_URI}`);
+	// console.log(`MONGO_URI: ${process.env.MONGO_URI}`);
 
 	try {
-		const conn = await mongoose.connect(
-			'mongodb+srv://ishaantakrani:6s5HRNGmJiZFmp3J@cluster0.xvfda.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
-			{
-				// useNewUrlParser: true,
-				// useUnifiedTopology: true,
-			}
-		);
+		const conn = await mongoose.connect(process.env.MONGO_URI, {
+			// useNewUrlParser: true,
+			// useUnifiedTopology: true,
+		});
 		console.log(`MongoDB Connected: ${conn.connection.host}`);
 	} catch (e) {
-		console.log('Error: ' + e);
+		console.log('Error connecting to database: ' + e);
 		process.exit(1);
 	}
 };
@@ -39,15 +36,14 @@ const createUser = async (userData) => {
 const addQuestion = async (userId, question) => {
 	connectDB();
 	try {
-		const user = await User.findById(userId); // finds user
+		const user = await User.findById(userId);
 		if (!user) {
 			console.error('User not found');
 			return;
 		}
 
-		user.questions.push(question); // adds question to user question list
-		const updatedUser = await user.save(); // pushes to db
-		// console.log('Updated user:', updatedUser);	// logs user
+		user.questions.push(question);
+		const updatedUser = await user.save();
 	} catch (error) {
 		console.error('Error adding question:', error);
 	}
@@ -61,8 +57,8 @@ const getUser = async (userId) => {
 			console.error('User not found');
 			return;
 		}
-		return user;
 		console.log('User details:', user);
+		return user;
 	} catch (error) {
 		console.error('Error retrieving user:', error);
 	}
